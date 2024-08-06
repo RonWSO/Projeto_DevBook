@@ -16,9 +16,10 @@ type Rota struct {
 
 // Configurar, coloca todas as rotas dentro do usuario
 func Configurar(r *mux.Router) *mux.Router {
-	rotas := rotasUsuarios
+	//Acessa o rotas usuarios para pegar todas as struct
+	rotas := &rotasUsuarios
 
-	for _, rota := range rotas {
+	for _, rota := range *rotas {
 		//Coloca todas as rotas dentro do router recebido
 		r.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
 	}

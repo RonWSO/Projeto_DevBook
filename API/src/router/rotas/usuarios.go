@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Cria um slice do tipo Rota
 var rotasUsuarios = []Rota{
 	{
 		//Rota de Criação de Usuario
