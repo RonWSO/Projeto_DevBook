@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/src/config"
 	"api/src/router"
 	"fmt"
 	"log"
@@ -9,8 +10,9 @@ import (
 
 // 1 - Instalar mux para fazer o Router
 func main() {
-	fmt.Print("Rodando API")
+	config.Carregar()
+	fmt.Printf("Rodando API na porta %d", config.Porta)
 	r := router.Gerar()
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Porta), r))
 }
