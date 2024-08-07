@@ -1,1 +1,8 @@
+#Ignora variavel de ambiente
 .env
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos do sistema operacional
+.DS_Store
+Thumbs.db
