@@ -25,7 +25,7 @@ func Carregar() {
 	//por padrão as informações no env vem de string, então tem que converter o valor da porta
 	Porta, erro = strconv.Atoi(os.Getenv("API_PORT"))
 	if erro != nil {
-		Porta = 8080
+		Porta = 8000
 	}
 	StringConexaoBanco = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local",
 		os.Getenv("DB_USUARIO"),
