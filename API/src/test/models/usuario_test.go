@@ -23,7 +23,7 @@ func TestValidarUsuario(t *testing.T) {
 	}
 
 	for _, caso := range cenariosDeTeste {
-		RetornoRecebido := caso.Usuario.TesteValidar()
+		RetornoRecebido := caso.Usuario.TesteValidar("cadastro")
 		if RetornoRecebido != caso.RetornoEsperado {
 			t.Errorf("Retorno recebido:%s Retorno esperado:%s", RetornoRecebido, caso.RetornoEsperado)
 		}
@@ -40,7 +40,7 @@ func TestFormatarUsuario(t *testing.T) {
 	}
 
 	for _, caso := range cenariosDeTeste {
-		RetornoRecebido := caso.Usuario.TesteFormatar()
+		RetornoRecebido := caso.Usuario.TesteFormatar("cadastro")
 		if !reflect.DeepEqual(RetornoRecebido, caso.RetornoEsperado) {
 			t.Errorf("Usuário formatado incorretamente.\nEsperado: %+v\nRecebido: %+v", caso.RetornoEsperado, RetornoRecebido)
 		}
