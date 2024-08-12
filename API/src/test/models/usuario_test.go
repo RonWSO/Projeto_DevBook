@@ -40,9 +40,14 @@ func TestFormatarUsuario(t *testing.T) {
 	}
 
 	for _, caso := range cenariosDeTeste {
-		RetornoRecebido := caso.Usuario.TesteFormatar("cadastro")
+		RetornoRecebido, erro := caso.Usuario.TesteFormatar("cadastro")
+		if erro != nil {
+			t.Errorf("Erro na formatação do usuário: %s", erro)
+			return
+		}
 		if !reflect.DeepEqual(RetornoRecebido, caso.RetornoEsperado) {
 			t.Errorf("Usuário formatado incorretamente.\nEsperado: %+v\nRecebido: %+v", caso.RetornoEsperado, RetornoRecebido)
+			return
 		}
 	}
 }

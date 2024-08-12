@@ -1,6 +1,7 @@
 package models
 
 import (
+	"api/src/security"
 	"errors"
 	"strings"
 	"time"
@@ -22,12 +23,12 @@ type Usuario struct {
 // Prepara a instancia de usuario para ser inserida no banco
 func (u *Usuario) Preparar(etapa string) error {
 
-	u.formatar()
-
 	if erro := u.validar(etapa); erro != nil {
 		return erro
 	}
-
+	if erro := u.formatar(etapa); erro != nil {
+		return erro
+	}
 	return nil
 }
 
@@ -41,18 +42,25 @@ func (u *Usuario) TesteValidar(etapa string) string {
 	if u.Email == "" {
 		return string("o email do usuário é obrigatório e não pode estar em branco")
 	}
-	if u.Senha == "" {
+	if etapa == "cadastro" && u.Senha == "" {
 		return string("o senha do usuário é obrigatório e não pode estar em branco")
 	}
 	return string("usuario valido!")
 }
 
-func (u *Usuario) TesteFormatar(etapa string) *Usuario {
+func (u *Usuario) TesteFormatar(etapa string) (*Usuario, error) {
 	u.Nome = strings.TrimSpace(u.Nome)
 	u.Nick = strings.TrimSpace(u.Nick)
 	u.Email = strings.TrimSpace(u.Email)
+	if etapa == "cadastro" {
+		senhaComHash, erro := security.Hash(u.Senha)
+		if erro != nil {
+			return &Usuario{}, erro
+		}
+		u.Senha = string(senhaComHash)
+	}
 
-	return u
+	return u, nil
 }
 
 func (u *Usuario) validar(etapa string) error {
@@ -76,8 +84,16 @@ func (u *Usuario) validar(etapa string) error {
 	return nil
 }
 
-func (u *Usuario) formatar() {
+func (u *Usuario) formatar(etapa string) error {
 	u.Nome = strings.TrimSpace(u.Nome)
 	u.Nick = strings.TrimSpace(u.Nick)
 	u.Email = strings.TrimSpace(u.Email)
+	if etapa == "cadastro" {
+		senhaComHash, erro := security.Hash(u.Senha)
+		if erro != nil {
+			return erro
+		}
+		u.Senha = string(senhaComHash)
+	}
+	return nil
 }
