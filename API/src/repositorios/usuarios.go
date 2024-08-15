@@ -131,3 +131,84 @@ func (repositorio usuarios) BuscarPorEmail(email string) (models.Usuario, error)
 
 	return usuario, nil
 }
+
+// Faz com que um usuario siga outro
+func (repositorio usuarios) Seguir(usuarioID, seguidorID uint64) error {
+	statement, erro := repositorio.db.Prepare("INSERT IGNORE INTO seguidores (usuario_id, seguidor_id) VALUES (?, ?)")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(usuarioID, seguidorID); erro != nil {
+		return erro
+	}
+
+	return nil
+}
+
+// Permite que um usuario pare de seguir outro
+func (repositorio usuarios) Desseguir(usuarioID, seguidorID uint64) error {
+	statement, erro := repositorio.db.Prepare("DELETE FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?")
+	if erro != nil {
+		return erro
+	}
+
+	defer statement.Close()
+
+	if _, erro = statement.Exec(usuarioID, seguidorID); erro != nil {
+		return erro
+	}
+
+	return nil
+}
+
+// Visualiza seguidores de um usuário
+func (repositorio usuarios) BuscarSeguidores(usuarioID uint64) ([]models.Usuario, error) {
+
+	linhas, erro := repositorio.db.Query("SELECT u.id, u.nome, u.nick FROM usuarios u INNER JOIN seguidores s on u.id = s.seguidor_id WHERE s.usuario_id = ?", usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+
+	defer linhas.Close()
+	var seguidores []models.Usuario
+
+	for linhas.Next() {
+		var usuario models.Usuario
+		if erro = linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+		); erro != nil {
+			return nil, erro
+		}
+		seguidores = append(seguidores, usuario)
+	}
+	return seguidores, nil
+}
+
+// Visualiza quem um usuario segue
+func (repositorio usuarios) BuscarQuemSegue(usuarioID uint64) ([]models.Usuario, error) {
+
+	linhas, erro := repositorio.db.Query("SELECT u.id, u.nome, u.nick FROM usuarios u INNER JOIN seguidores s on u.id = s.usuario_id WHERE s.seguidor_id = ?", usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+
+	defer linhas.Close()
+	var seguindo []models.Usuario
+
+	for linhas.Next() {
+		var usuario models.Usuario
+		if erro = linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+		); erro != nil {
+			return nil, erro
+		}
+		seguindo = append(seguindo, usuario)
+	}
+	return seguindo, nil
+}

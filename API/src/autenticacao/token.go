@@ -28,23 +28,26 @@ func CriarToken(usuarioID uint64) (string, error) {
 
 // Verifica se o token passado na requisição é válido
 func ValidarToken(r *http.Request) (*jwt.Token, error) {
+	//Retira a string do token do request e transforma em string
 	tokenString := extrairToken(r)
+	//Transforma a string do token em um token jwt, a função retornar chave de verificação, é uma função que checa a família do token e checa se está correto
 	token, erro := jwt.Parse(tokenString, retornarChaveDeVerificacao)
 	if erro != nil {
 		return nil, erro
 	}
-
+	// retorna o map com os claims do token e um book para saber se está true, checa se o token é Válido, esse metodo é utilizável quando se válida o token
 	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		//Se estiver tudo ok retorna o token e o nil
 		return token, nil
 	}
-
+	//Se o token estiver inválido retorna o erro.
 	return nil, errors.New("token inválido")
 }
 
 // Pega o token de dentro da requisição
 func extrairToken(r *http.Request) string {
 	token := r.Header.Get("Authorization")
-
+	//O token beared que estamos recebendo vem escrito beared antes, então pegamos a string e separamos em duas palavras para checar e poder retornar apenas a string do token
 	if len(strings.Split(token, " ")) == 2 {
 		return strings.Split(token, " ")[1]
 	}
@@ -62,6 +65,7 @@ func retornarChaveDeVerificacao(token *jwt.Token) (interface{}, error) {
 
 // Pega o id do usuário no token, checando primeiramente se o token é válido
 func ExtrairUsuarioToken(r *http.Request) (uint64, error) {
+	//Valida token utilizando a função
 	token, erro := ValidarToken(r)
 	if erro != nil {
 		return 0, erro
