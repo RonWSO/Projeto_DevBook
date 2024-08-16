@@ -70,4 +70,11 @@ var rotasUsuarios = []Rota{
 		Funcao:             controllers.Seguindo,
 		RequerAutenticacao: true,
 	},
+	{
+		//Rota para Deletar o usuario
+		URI:                "/usuario/{usuarioId}/atualizarSenha",
+		Metodo:             http.MethodPost,
+		Funcao:             controllers.AtualizarSenha,
+		RequerAutenticacao: true,
+	},
 }

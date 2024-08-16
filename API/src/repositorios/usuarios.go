@@ -212,3 +212,35 @@ func (repositorio usuarios) BuscarQuemSegue(usuarioID uint64) ([]models.Usuario,
 	}
 	return seguindo, nil
 }
+
+// Traz a senha de um usuário pelo ID
+func (repositorio usuarios) BuscarSenha(usuarioID uint64) (string, error) {
+	linha, erro := repositorio.db.Query("SELECT senha FROM usuarios WHERE usuarios.id = ?", usuarioID)
+	if erro != nil {
+		return "", erro
+	}
+
+	defer linha.Close()
+
+	var usuario models.Usuario
+	if linha.Next() {
+		if erro = linha.Scan(&usuario.Senha); erro != nil {
+			return "", erro
+		}
+	}
+
+	return usuario.Senha, nil
+}
+
+// Altera a senha de um usuário
+func (repositorio usuarios) AtualizarSenha(usuarioID uint64, senha string) error {
+	statement, erro := repositorio.db.Prepare("UPDATE usuarios SET senha = ? WHERE id = ?")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+	if _, erro = statement.Exec(senha, usuarioID); erro != nil {
+		return erro
+	}
+	return nil
+}
