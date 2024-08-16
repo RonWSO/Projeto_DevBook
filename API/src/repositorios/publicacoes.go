@@ -34,6 +34,4 @@ func (repositorio Publicacoes) Criar(publicacao models.Publicacao) (uint64, erro
 		return 0, nil
 	}
 	return uint64(ultimoIdInserido), nil
-
-	return 0, nil
 }
