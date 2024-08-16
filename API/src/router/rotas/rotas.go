@@ -20,6 +20,8 @@ func Configurar(r *mux.Router) *mux.Router {
 	//Acessa o rotas usuarios para pegar todas as struct
 	rotas := rotasUsuarios
 	rotas = append(rotas, RotaLogin)
+	//com reticencias no final da variável o appende percorre o slice de rotas um por um
+	rotas = append(rotas, rotasPublicacoes...)
 	for _, rota := range rotas {
 		if rota.RequerAutenticacao {
 			//cria um handlerfunc, onde chama o middlewares logger onde é escrito o log da requisição, passando a função de autenticar, para quando for escrito o log ela seja chamada, Dentro da função de chamada
