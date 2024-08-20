@@ -17,3 +17,8 @@ INSERT INTO seguidores (usuario_id, seguidor_id)
 VALUES (2,3);
 INSERT INTO seguidores (usuario_id, seguidor_id)
 VALUES (3,2);
+
+INSERT INTO publicacoes(titulo, conteudo, autor_id) VALUES ("Publicação do usuário1", "Conteúdo", 1);
+INSERT INTO publicacoes(titulo, conteudo, autor_id) VALUES ("Publicação do usuário2", "Conteúdo", 2);
+INSERT INTO publicacoes(titulo, conteudo, autor_id) VALUES ("Publicação do usuário3", "Conteúdo", 3);
+INSERT INTO publicacoes(titulo, conteudo, autor_id) VALUES ("Publicação do usuário4", "Conteúdo", 4);
