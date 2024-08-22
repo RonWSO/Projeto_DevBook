@@ -5,6 +5,8 @@ import (
 	"text/template"
 )
 
+//Templates servem para usar o html e retornar as páginas solicitadas.
+
 var templates *template.Template
 
 // Carrega os templates e coloca dentro da variavel templates

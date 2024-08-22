@@ -13,6 +13,6 @@ func main() {
 	utils.CarregarTemplates()
 	r := router.Gerar()
 
-	fmt.Println("Rodando Webapp na porta 3000")
+	fmt.Println("Rodando Webapp na porta 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

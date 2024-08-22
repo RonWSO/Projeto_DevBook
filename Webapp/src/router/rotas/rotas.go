@@ -16,10 +16,14 @@ type Rota struct {
 
 func Configurar(router *mux.Router) *mux.Router {
 	rotas := rotasLogin
-
+	rotas = append(rotas, rotasUsuarios...)
 	for _, rota := range rotas {
 		router.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
 	}
+	//Aponta pro go onde estarão os arquivos estáticos que iremos usar
+	fileServer := http.FileServer(http.Dir("./assets/"))
+	//Cria a rota prefix para arquivos estáticos
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fileServer))
 
 	return router
 }

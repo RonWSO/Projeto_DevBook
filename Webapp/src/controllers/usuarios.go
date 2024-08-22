@@ -1,0 +1,29 @@
+package controllers
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+// Chama a API para cadastrar um usuário no banco de dados
+func CadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	usuario, erro := json.Marshal(map[string]string{
+		"nome":  r.FormValue("nome"),
+		"email": r.FormValue("email"),
+		"nick":  r.FormValue("nick"),
+		"senha": r.FormValue("senha"),
+	})
+	if erro != nil {
+		log.Fatal(erro)
+	}
+	response, erro := http.Post("http://localhost:8000/usuario", "application/json", bytes.NewBuffer(usuario))
+	if erro != nil {
+		log.Fatal(erro)
+	}
+	defer response.Body.Close()
+	fmt.Println(response.Body)
+}
