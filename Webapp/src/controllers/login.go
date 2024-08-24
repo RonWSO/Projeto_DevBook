@@ -4,31 +4,39 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"webapp/src/models"
 	"webapp/src/respostas"
 )
 
-// Chama a API para cadastrar um usuário no banco de dados
-func CadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
+// Fazer login utiliza o e-mail e senha do usuário para autenticar  na aplicação
+func FazerLogin(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	usuario, erro := json.Marshal(map[string]string{
-		"nome":  r.FormValue("nome"),
 		"email": r.FormValue("email"),
-		"nick":  r.FormValue("nick"),
 		"senha": r.FormValue("senha"),
 	})
 	if erro != nil {
 		respostas.JSON(w, http.StatusBadRequest, respostas.ErroApi{Erro: "Dados enviados não podem ser processados"})
 		return
 	}
-	response, erro := http.Post("http://localhost:8000/usuario", "application/json", bytes.NewBuffer(usuario))
+
+	response, erro := http.Post("http://localhost:8000/login", "application/json", bytes.NewBuffer(usuario))
+
 	if erro != nil {
 		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroApi{Erro: erro.Error()})
 		return
 	}
+
 	defer response.Body.Close()
 	if response.StatusCode >= 400 {
 		respostas.TratarRespostaErro(w, response)
 		return
 	}
-	respostas.JSON(w, response.StatusCode, nil)
+	var dadosAutenticacao models.DadosAutenticacao
+	if erro = json.NewDecoder(response.Body).Decode(&dadosAutenticacao); erro != nil {
+		respostas.JSON(w, http.StatusUnprocessableEntity, respostas.ErroApi{Erro: erro.Error()})
+		return
+	}
+
+	respostas.JSON(w, http.StatusOK, nil)
 }
