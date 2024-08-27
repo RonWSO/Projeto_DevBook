@@ -14,3 +14,8 @@ func CarregarTelaLogin(w http.ResponseWriter, r *http.Request) {
 func CarregarPaginaDeCadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
 	utils.ExecutarTemplate(w, "cadastro-usuario.html", nil)
 }
+
+// Carrega a página de home
+func CarregarTelaHome(w http.ResponseWriter, r *http.Request) {
+	utils.ExecutarTemplate(w, "home.html", nil)
+}
