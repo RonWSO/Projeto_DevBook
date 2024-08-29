@@ -1,6 +1,7 @@
 package cookies
 
 import (
+	"fmt"
 	"net/http"
 	"webapp/src/config"
 
@@ -17,22 +18,25 @@ func Configurar() {
 
 // Salvar registra as informações de autenticação
 func Salvar(w http.ResponseWriter, ID, token string) error {
+	//Cria um mapa json com o id e token retornados pela api
 	dados := map[string]string{
 		"id":    ID,
 		"token": token,
 	}
+	//Cria um mapa json com o id e token retornados pela api
+	fmt.Println(dados)
 	dadosCodificados, erro := s.Encode("dados", dados)
 	if erro != nil {
+		fmt.Println(erro)
 		return erro
 	}
-
+	//Cria um mapa json com o id e token retornados pela api
 	http.SetCookie(w, &http.Cookie{
 		Name:     "dados",
 		Value:    dadosCodificados,
 		Path:     "/",
 		HttpOnly: true,
 	})
-
 	return nil
 }
 

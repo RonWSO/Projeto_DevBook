@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/hex"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,19 +8,10 @@ import (
 	"webapp/src/cookies"
 	"webapp/src/router"
 	"webapp/src/utils"
-
-	"github.com/gorilla/securecookie"
 )
 
-func init() {
-	config.Carregar()
-	haskKey := securecookie.GenerateRandomKey(64)
-	fmt.Println(hex.EncodeToString(haskKey))
-	blockKey := securecookie.GenerateRandomKey(64)
-	fmt.Println(hex.EncodeToString(blockKey))
-}
-
 func main() {
+	config.Carregar()
 	cookies.Configurar()
 	utils.CarregarTemplates()
 	r := router.Gerar()
