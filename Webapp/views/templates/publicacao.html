@@ -1,0 +1,54 @@
+<!--
+<div class="container mt-2">
+    
+        
+        {{ if (eq .AutorID $.UsuarioID) }}
+            <p>Botões curtir, publicar e excluir</p>
+        {{ else }}
+            <p>Botão curtir</p>
+        {{ end }}
+    </div>
+</div>
+-->
+{{ define "curtidas"}}
+    <i class="fa-solid fa-heart curtir-publicacao" style="color: #e00a97;"></i> 
+    <span> {{ .Curtidas }} </span>
+{{ end }}
+{{ define "deletar"}}
+<a href="/deletar"><i class="fa-solid fa-trash text-danger"></i></a>
+{{ end }}
+{{ define "editar"}}
+<a href="/editar"><i class="fa-solid fa-pen"></i></a>
+{{ end }}
+
+{{ define "cabecalho-publicacao" }}
+        <h1 class="display-6">{{ .Titulo }}</h1>
+        <p class="lead">{{.Conteudo}}</p>
+        <p> <a href="#" style="text-decoration: none;"> {{ .AutorNick }} </a> - {{ .CriadaEm.Format "02/01/2006 03:04" }}</p>
+        <hr class="my-4">
+{{ end }}
+
+{{ define "publicacao-com-permissao"}}
+    <div class="container mt-2 position-relative p-5 bg-body border border-dashed rounded-5" data-publicacao-id="{{ .ID }}">
+
+                {{ template "cabecalho-publicacao" . }}
+                <p>
+                    {{template "curtidas" . }}
+                    {{template "editar" }} 
+                    {{template "deletar" }} 
+                </p>
+
+    </div>
+{{ end }}
+
+{{ define "publicacao-sem-permissao"}}
+    <div class="container mt-2 position-relative p-5 bg-body border border-dashed rounded-5" data-publicacao-id="{{ .ID }}">
+
+            {{ template "cabecalho-publicacao" . }}
+            <p>
+                {{template "curtidas" . }} 
+            </p>
+
+    </div>
+{{ end }}
+

@@ -23,7 +23,6 @@ func CadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
 		respostas.JSON(w, http.StatusBadRequest, respostas.ErroApi{Erro: "Dados enviados não podem ser processados"})
 		return
 	}
-	fmt.Println("26")
 	url := fmt.Sprintf("%s/usuario", config.APIURL)
 	fmt.Println(url)
 	response, erro := http.Post(url, "application/json", bytes.NewBuffer(usuario))
@@ -32,12 +31,10 @@ func CadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer response.Body.Close()
-	fmt.Println("34")
 	if response.StatusCode >= 400 {
 		respostas.TratarRespostaErro(w, response)
 		return
 	}
 
-	fmt.Println("39")
 	respostas.JSON(w, response.StatusCode, nil)
 }

@@ -7,9 +7,9 @@ VALUES ("Usuário_3", "User 3", "EmailUsuario3@exemplo.com", "$2a$10$MpDPzzgFDIR
 INSERT INTO usuarios (nome, nick, email, senha)
 VALUES ("Usuário_4", "User 4", "EmailUsuario4@exemplo.com", "$2a$10$MpDPzzgFDIR79P2jkrujceP.uAkhMuozxjNU8AjdoIX6VTm2W4hAa");
 
-INSERT INTO seguidores (usuario_id, seguidor_id)
+INSERT INTO seguidores (usuario_id, seguidor_id) 
 VALUES (1,2);
-INSERT INTO seguidores (usuario_id, seguidor_id)
+INSERT INTO seguidores (usuario_id, seguidor_id) 
 VALUES (1,3);
 INSERT INTO seguidores (usuario_id, seguidor_id)
 VALUES (3,1);
