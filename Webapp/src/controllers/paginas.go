@@ -20,6 +20,9 @@ import (
 func CarregarTelaLogin(w http.ResponseWriter, r *http.Request) {
 	Cookie, erro := cookies.Ler(r)
 	if erro != nil {
+		if erro.Error() == "http: named cookie not present" {
+			utils.ExecutarTemplate(w, "login.html", nil)
+		}
 		respostas.JSON(w, http.StatusBadRequest, respostas.ErroApi{Erro: erro.Error()})
 		return
 	}
@@ -42,6 +45,7 @@ func CarregarTelaHome(w http.ResponseWriter, r *http.Request) {
 	response, erro := requisicoes.FazerRequisicaoComAutenticacao(r, http.MethodGet, url, nil)
 	if erro != nil {
 		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroApi{Erro: erro.Error()})
+		fmt.Println(erro)
 		return
 	}
 	defer response.Body.Close()
@@ -139,6 +143,17 @@ func CarregarPaginaDeUsuarios(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	usuario, erro := models.BuscarUsuarioCompleto(usuarioID, r)
+	if erro != nil {
+		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroApi{Erro: erro.Error()})
+	}
+	cookie, _ := cookies.Ler(r)
+	usuarioLogadoID, _ := strconv.ParseUint(cookie["id"], 10, 64)
 
-	utils.ExecutarTemplate(w, "perfil.html", usuario)
+	utils.ExecutarTemplate(w, "perfil.html", struct {
+		Usuario         models.Usuario
+		UsuarioLogadoID uint64
+	}{
+		Usuario:         usuario,
+		UsuarioLogadoID: usuarioLogadoID,
+	})
 }
