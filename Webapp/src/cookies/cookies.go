@@ -1,8 +1,8 @@
 package cookies
 
 import (
-	"fmt"
 	"net/http"
+	"time"
 	"webapp/src/config"
 
 	"github.com/gorilla/securecookie"
@@ -24,10 +24,8 @@ func Salvar(w http.ResponseWriter, ID, token string) error {
 		"token": token,
 	}
 	//Cria um mapa json com o id e token retornados pela api
-	fmt.Println(dados)
 	dadosCodificados, erro := s.Encode("dados", dados)
 	if erro != nil {
-		fmt.Println(erro)
 		return erro
 	}
 	//Cria um mapa json com o id e token retornados pela api
@@ -51,4 +49,15 @@ func Ler(r *http.Request) (map[string]string, error) {
 	}
 
 	return valores, nil
+}
+
+// Deleta deleta os cookies no usuáio
+func Deletar(w http.ResponseWriter) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "dados",
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		Expires:  time.Unix(0, 0),
+	})
 }

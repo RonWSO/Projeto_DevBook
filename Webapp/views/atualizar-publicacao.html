@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBook - Atualizar Publicação</title>
+
+    {{ template "base_header" }}
+    <link rel="stylesheet" type="text/css" href="/assets/css/home.css">
+    <script src="/assets/js/publicacao.js" defer></script> 
+</head>
+<body>
+    {{ template "cabecalho" }}
+    <div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Editar Publicação</h3>
+            <fieldset>
+                <form id="editar-publicacao">
+                    <div class="form-group">
+                        <label for="titulo">Título</label>
+                        <input type="text" class="form-control" placeholder="Insira o título da sua publicação" id="titulo" name="titulo" value="{{ .Titulo }}" required="required">
+                    </div>
+                    <div class="form-group mt-2">
+                        <textarea class="form-control" placeholder="Insira o conteúdo da sua publicação" id="conteudo" name="conteudo" required="required">{{.Conteudo}}</textarea>
+                    </div>
+                    <button class="btn btn-primary mt-2" id="btn-salvar" type="submit" data-publicacao-id="{{ .ID }}">
+                        Salvar Alterações
+                    </button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+    
+    {{ template "rodape" }}
+</body>
+</html>

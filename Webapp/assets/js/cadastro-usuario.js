@@ -4,7 +4,12 @@ function criarUsuario(evento){
     evento.preventDefault();
 
     if($('#senha').val() != $('#confirmar-senha').val()){
-        alert("As senhas não coincidem");
+        swal("As senhas não coincidem", 
+            {
+                icon: "warning",
+                title: "Ops..."
+            }
+        );
         return
     }
     $.ajax({
@@ -17,9 +22,32 @@ function criarUsuario(evento){
             senha:$('#senha').val(),
         }
     }).done(function(retorno){ // 200 201 204 São considerados status de sucesso
-        alert("Usuário cadastrado com sucesso")
+        swal("Usuário cadastrado com sucesso",{
+            icon: "success",
+            button: "Ok!",
+        }).then(function(){ 
+            $.ajax({
+                url: "/login",
+                method: "POST",
+                data:{
+                    email: $('#email').val(),
+                    senha: $('#senha').val(),
+                }
+            }).done(function(){
+                window.location = "/home";
+            }).fail(function(){
+                swal("Não foi possível fazer o login",{
+                    icon: "error",
+                    button: "Ok!",
+                })
+                .then(window.location = "/")
+            });
+        });
     }).fail(function(retorno){// 400 ou 500 São considerados status de falha
         console.log(retorno)
-        alert("Erro ao cadastrar o usuário")
+        swal("Erro ao cadastrar o usuário",{
+            icon: "error",
+            dangerMode: true,
+        })
     });
 }

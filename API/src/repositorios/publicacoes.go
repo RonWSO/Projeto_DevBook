@@ -4,7 +4,6 @@ import (
 	"api/src/models"
 	"database/sql"
 	"errors"
-	"fmt"
 )
 
 // Publicações representa um repositorio de publicações
@@ -95,7 +94,6 @@ func (repositorio Publicacoes) Buscar(usuarioID uint64) ([]models.Publicacao, er
 		); erro != nil {
 			return nil, erro
 		}
-		fmt.Println(publicacao)
 		publicacoes = append(publicacoes, publicacao)
 	}
 	return publicacoes, nil

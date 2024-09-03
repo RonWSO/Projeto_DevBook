@@ -13,6 +13,9 @@ function fazerLogin(evento){
         window.location = '/home'
     }).fail(function(retorno){// 400 ou 500 São considerados status de falha
         console.log(retorno)
-        alert("Não foi possível fazer o login")
+        swal("Não foi possível fazer o login",{
+            icon: "error",
+            text: "Confira as informações e tente novamente."
+        })
     });
 }
