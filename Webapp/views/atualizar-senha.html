@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBook - Atualizar Senha</title>
+    {{ template "base_header" }}
+    <script src="/assets/js/usuario.js" defer></script> 
+</head>
+<body>
+    {{ template "cabecalho" }}
+    <div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Editar Senha</h3>
+            <fieldset>
+                <form id="editar-senha" class="mt-4">
+                    <div class="form-group">
+                        <label for="nome">Senha atual:</label>
+                        <input type="password" class="form-control" placeholder="Insira sua senha atual" id="senhaAtual" name="senhaAtual" required="required">
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="nick">Nova senha:</label>
+                        <input type="password" class="form-control" placeholder="Insira a nova senha" id="senhaNova" name="senhaNova" required="required">
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="email">Confirme a senha:</label>
+                        <input type="password" class="form-control" placeholder="Confirme a nova senha" id="senhaConfirmada" name="senhaConfirmada" required="required">
+                    </div>
+                    <button class="btn btn-primary mt-2" id="btn-editar-usuario" type="submit">
+                        Salvar Alteração
+                    </button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+    
+    {{ template "rodape" }}
+</body>
+</html>

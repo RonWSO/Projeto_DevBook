@@ -12,7 +12,7 @@
 {{ define "cabecalho-publicacao" }}
         <h1 class="display-6">{{ .Titulo }}</h1>
         <p class="lead">{{.Conteudo}}</p>
-        <p> <a href="#" style="text-decoration: none;"> {{ .AutorNick }} </a> - {{ .CriadaEm.Format "02/01/2006 03:04" }}</p>
+        <p> <a href="/usuario/{{ .AutorID }}" style="text-decoration: none;"> {{ .AutorNick }} </a> - {{ .CriadaEm.Format "02/01/2006 03:04" }}</p>
         <hr class="my-4">
 {{ end }}
 

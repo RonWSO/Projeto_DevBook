@@ -111,6 +111,11 @@ func BuscarSeguidores(canal chan<- []Usuario, usuarioID uint64, r *http.Request)
 		canal <- nil
 		return
 	}
+	//Checa se o valor recebido for nil, se for ele transforma em um array vazio para não dar erro
+	if seguidores == nil {
+		canal <- make([]Usuario, 0)
+		return
+	}
 	canal <- seguidores
 }
 
@@ -129,6 +134,11 @@ func BuscarSeguindo(canal chan<- []Usuario, usuarioID uint64, r *http.Request) {
 		canal <- nil
 		return
 	}
+	//Checa se o valor recebido for nil, se for ele transforma em um array vazio para não dar erro
+	if seguindo == nil {
+		canal <- make([]Usuario, 0)
+		return
+	}
 	canal <- seguindo
 }
 
@@ -144,6 +154,11 @@ func BuscarPublicacao(canal chan<- []Publicacao, usuarioID uint64, r *http.Reque
 	var publicacoes []Publicacao
 	if erro = json.NewDecoder(response.Body).Decode(&publicacoes); erro != nil {
 		canal <- nil
+		return
+	}
+	//Checa se o valor recebido for nil, se for ele transforma em um array vazio para não dar erro
+	if publicacoes == nil {
+		canal <- make([]Publicacao, 0)
 		return
 	}
 	canal <- publicacoes

@@ -9,6 +9,7 @@ import (
 	"api/src/security"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -328,6 +329,7 @@ func Seguindo(w http.ResponseWriter, r *http.Request) {
 
 // Permite o usuário a alterar a própria senha
 func AtualizarSenha(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("entrei")
 	usuarioIDNoToken, erro := autenticacao.ExtrairUsuarioToken(r)
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnauthorized, erro)

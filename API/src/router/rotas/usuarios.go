@@ -72,7 +72,7 @@ var rotasUsuarios = []Rota{
 	},
 	{
 		//Rota para atualizar a senha
-		URI:                "/usuario/{usuarioId}/atualizarSenha",
+		URI:                "/usuario/{usuarioId}/atualizar-senha",
 		Metodo:             http.MethodPost,
 		Funcao:             controllers.AtualizarSenha,
 		RequerAutenticacao: true,

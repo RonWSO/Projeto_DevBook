@@ -1,0 +1,21 @@
+{{ define "modal-seguindo"}}
+<div class="modal fade" tabindex="-1" aria-labelledby="modal-seguidoresLabel" aria-hidden="true" id="modal-seguindo">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Seguindo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ range .Seguindo }}
+                    <a href="/usuario/{{ .ID }}">{{ .Nick }}</a> </br>
+                {{ else }}
+                    <p class="text-muted text-center">
+                        Nenhum Seguidor por enquanto
+                    </p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
